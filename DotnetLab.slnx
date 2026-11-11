@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/01-csharp-fundamentals/" />
+  <Folder Name="/01-csharp-fundamentals/src/">
+    <Project Path="01-csharp-fundamentals/src/CSharpFundamentals.csproj" />
+  </Folder>
+  <Folder Name="/01-csharp-fundamentals/tests/">
+    <Project Path="01-csharp-fundamentals/tests/CSharpFundamentals.Tests.csproj" />
+  </Folder>
+</Solution>
