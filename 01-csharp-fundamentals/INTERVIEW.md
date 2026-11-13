@@ -101,4 +101,4 @@
 
 | Date | Questions asked | Avg score | Follow-up topics |
 |------|-----------------|-----------|------------------|
-|      |                 |           |                  |
+| 2026-11-13 | Value vs reference: Q1, Q2 (+ where `p` is stored), Q15 (+ `ref`) | 3.4 | `var` is compile-time; "reference passed by value"; `ref`/`out`/`in` |
