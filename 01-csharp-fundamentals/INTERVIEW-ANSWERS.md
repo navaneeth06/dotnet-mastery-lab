@@ -333,3 +333,126 @@ city!.Length          // null-forgiving: silences the warning, no runtime effect
 `int?` (a nullable **value** type) is a real runtime type, `Nullable<int>`, with
 `.HasValue` and `.Value`. `string?` is only an annotation: at runtime it's the
 same `string`.
+
+---
+
+## Pattern matching (Q14)
+
+**Question:** "Show three kinds of pattern matching and when each helps."
+
+### Short answer
+
+> "Pattern matching lets me test the shape of a value and extract data in one step:
+> 1. **Type pattern**: `if (obj is string s)` checks the type and casts in one go.
+> 2. **Switch expression** with relational patterns: `score switch { >= 90 => "A", _ => "F" }`
+>    replaces long if/else chains and returns a value.
+> 3. **Property pattern**: `order is { Status: "Paid", Total: > 100 }` checks
+>    several properties at once.
+> Cases are checked top to bottom and the first match wins. The compiler also
+> errors if a case can never be reached."
+
+### Comparisons
+
+- Java: `instanceof String s` (Java 16+) and switch patterns (Java 21) are very similar.
+- PHP: a switch expression is like PHP 8's `match`.
+
+### Follow-up: order of cases
+
+If a general case comes before a specific one (`int =>` above `int n when n > 0 =>`),
+the specific one can never match, and the compiler gives an **error** (CS8510),
+not just a warning.
+
+---
+
+## `const` vs `readonly` vs `static readonly` (Q13)
+
+### Short answer
+
+> "`const` is a compile-time constant. It must be a literal, like a number or
+> string, and it's implicitly static.
+> `readonly` is set once per object, in the declaration or the constructor, so
+> each instance can have a different value.
+> `static readonly` is set once for the whole type, at runtime, and can hold
+> any object, like `JsonSerializerOptions` or `HttpClient`."
+
+### The trap
+
+> "The value of a `const` is **copied into the calling assembly** at compile time.
+> If a library changes a public `const` and the consumer isn't recompiled, the
+> consumer keeps the old value. So I use `const` only for values that truly never
+> change, and `static readonly` for public values that might."
+
+### Extra point
+
+`readonly` on a reference-type field only stops **reassigning** the field. The
+object itself can still be changed (`_list.Add(...)` still works). It's the same
+shallow-immutability idea as records.
+
+### Java comparison
+
+`readonly` ≈ `final` field, `static readonly` ≈ `static final`. Java inlines
+compile-time-constant `static final` primitives and strings too, so it has a
+similar versioning trap.
+
+---
+
+## `ref`, `out`, `in` (Q8)
+
+**Question:** "Explain `ref`, `out` and `in`. When is `in` useful?"
+
+### Short answer
+
+> "All three pass the caller's **variable** by reference instead of a copy.
+> - `ref`: must be initialised before the call; the method can read and change it.
+> - `out`: doesn't need a value first; the method **must** assign it. Used for
+>   the Try-pattern, e.g. `int.TryParse(text, out int n)`.
+> - `in`: read-only reference. The method can't change it.
+> `in` is useful for passing a **large struct** without copying it, while
+> guaranteeing the method won't modify it. For small types like `int`, it adds
+> no benefit."
+
+### Example
+
+```csharp
+bool ok = int.TryParse("abc", out int c);   // ok = false, c = 0 (default)
+```
+
+### Extra points
+
+- `ref` / `out` must be written at the **call site** too (`Foo(ref x)`), so it's
+  visible that the variable may change. (`in` is optional at the call site.)
+- Usually prefer returning a value (or a tuple: `(bool ok, int value)`) over `ref`.
+- `async` methods can't have `ref` / `out` / `in` parameters.
+
+### Java comparison
+
+Java has no pass-by-reference. You'd return an object, a wrapper, or
+`Optional<T>` instead.
+
+---
+
+## Generics without type erasure (Q17)
+
+**Question:** "Java erases generic types at runtime; C# doesn't. What does that allow in C#?"
+
+### Short answer
+
+> "In C#, generics are **reified**: the type argument exists at runtime, so
+> `List<int>` and `List<string>` are different runtime types. That allows:
+> 1. **No boxing** for value types: `List<int>` stores raw ints, while Java's
+>    `List<Integer>` boxes every element. Better speed and memory.
+> 2. **Runtime type info**: `typeof(T)`, `x is List<string>`, reflection on `T`.
+> 3. **`new T()`** with the `where T : new()` constraint.
+> The runtime creates specialised code for each value type and shares one
+> version for all reference types."
+
+### Constraints
+
+`where T : class`, `struct`, `new()`, `notnull`, a base class, or an interface.
+Similar to Java's `<T extends X>`, with more options.
+
+### Small facts
+
+- `int` = `System.Int32`, `long` = `Int64`, `string` = `String`, `bool` = `Boolean`.
+  (Not `Integer`, which is Java.)
+- `typeof(T).Name` for `int` gives `"Int32"`.

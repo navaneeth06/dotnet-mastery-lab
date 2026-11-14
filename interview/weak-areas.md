@@ -11,3 +11,5 @@ Topics to revisit. Remove a row once I can answer it confidently without hints.
 | 2026-11-14 | 01 | Record immutability / `with` | Thought `with` deep-copies because "records are immutable" | `with` is a **shallow** copy; immutability is top-level only, so a `List` property is shared and can still be changed |
 | 2026-11-14 | 01 | `==` on records | Predicted `False` for two records with the same data | Records override `==` to compare **values** → `True` (unlike Java records) |
 | 2026-11-14 | 01 | Nullable reference types | Said they "prevent crashes at runtime" | **Compile-time warnings only**; no runtime check. Null can still come from JSON/DB/libraries, so validate at boundaries |
+| 2026-11-15 | 01 | C# type names | Said `typeof(int).Name` is "Integer" (Java habit) | `int` is an alias for `System.Int32` → "Int32" |
+| 2026-11-15 | 01 | Generics: benefits of no type erasure | Forgot the main benefit | Lead with **no boxing for value types** (`List<int>` vs Java `List<Integer>`) = performance |

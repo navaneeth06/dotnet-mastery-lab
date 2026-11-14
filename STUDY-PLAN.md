@@ -9,7 +9,7 @@ in `INTERVIEW-ANSWERS.md`. Tests only for tricky topics.
 | Day | Date | Topics | Done |
 |-----|------|--------|------|
 | 1 | Nov 14 | C# basics: records, `==` vs `Equals`, strings, nullable reference types | [x] |
-| 2 | Nov 15 | Pattern matching, `const`/`readonly`, `ref`/`out`/`in`, generics (no type erasure) | [ ] |
+| 2 | Nov 15 | Pattern matching, `const`/`readonly`, `ref`/`out`/`in`, generics (no type erasure) | [x] |
 | 3 | Nov 16 | 🔥 LINQ: deferred execution, `IEnumerable` vs `IQueryable`, `yield` | [ ] |
 | 4 | Nov 17 | Memory & GC: generations, `IDisposable`, `using`, finalizers (short) | [ ] |
 | 5 | Nov 18 | 🔥 Async part 1: `Task` vs `Thread`, how `await` works, `Task.WhenAll` | [ ] |

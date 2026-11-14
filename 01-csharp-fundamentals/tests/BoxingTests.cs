@@ -1,6 +1,6 @@
 
 
-namespace CSharpFundamentals.Test;
+namespace CSharpFundamentals.Tests;
 
 public class BoxingTests
 {
