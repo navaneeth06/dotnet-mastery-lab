@@ -13,7 +13,7 @@ in `INTERVIEW-ANSWERS.md`. Tests only for tricky topics.
 | 3 | Nov 16 | 🔥 LINQ: deferred execution, `IEnumerable` vs `IQueryable`, `yield` | [x] |
 | 4 | Nov 17 | Memory & GC: generations, `IDisposable`, `using`, finalizers (short) | [x] |
 | 5 | Nov 18 | 🔥 Async part 1: `Task` vs `Thread`, how `await` works, `Task.WhenAll` | [x] |
-| 6 | Nov 19 | 🔥 Async part 2: deadlocks, `ConfigureAwait`, `CancellationToken`, `lock`, `SemaphoreSlim` | [ ] |
+| 6 | Nov 19 | 🔥 Async part 2: deadlocks, `ConfigureAwait`, `CancellationToken`, `lock`, `SemaphoreSlim` | [x] |
 | 7 | Nov 20 | OOP in C#: interfaces vs abstract classes, delegates, events, lambdas, SOLID | [ ] |
 | 8 | Nov 21 | 🔥 ASP.NET Core: request pipeline, middleware, routing, filters, minimal APIs vs controllers | [ ] |
 | 9 | Nov 22 | 🔥 Dependency injection: lifetimes, captive dependencies, options pattern, configuration | [ ] |
