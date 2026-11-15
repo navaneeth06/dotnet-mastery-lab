@@ -11,7 +11,7 @@ in `INTERVIEW-ANSWERS.md`. Tests only for tricky topics.
 | 1 | Nov 14 | C# basics: records, `==` vs `Equals`, strings, nullable reference types | [x] |
 | 2 | Nov 15 | Pattern matching, `const`/`readonly`, `ref`/`out`/`in`, generics (no type erasure) | [x] |
 | 3 | Nov 16 | 🔥 LINQ: deferred execution, `IEnumerable` vs `IQueryable`, `yield` | [x] |
-| 4 | Nov 17 | Memory & GC: generations, `IDisposable`, `using`, finalizers (short) | [ ] |
+| 4 | Nov 17 | Memory & GC: generations, `IDisposable`, `using`, finalizers (short) | [x] |
 | 5 | Nov 18 | 🔥 Async part 1: `Task` vs `Thread`, how `await` works, `Task.WhenAll` | [ ] |
 | 6 | Nov 19 | 🔥 Async part 2: deadlocks, `ConfigureAwait`, `CancellationToken`, `lock`, `SemaphoreSlim` | [ ] |
 | 7 | Nov 20 | OOP in C#: interfaces vs abstract classes, delegates, events, lambdas, SOLID | [ ] |
