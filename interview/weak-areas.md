@@ -18,3 +18,5 @@ Topics to revisit. Remove a row once I can answer it confidently without hints.
 | 2026-11-15 | 04 | Async execution order | Thought an async method only starts when awaited (like `yield`), and that code after `await task` runs before the task finishes | An async method **starts immediately** and runs until its first incomplete `await`; `await task` **waits** for the task to finish before continuing |
 | 2026-11-15 | 04 | Deadlock with `.Result` in WPF | Said only "blocks the thread", missed the deadlock | UI thread blocks waiting; the continuation needs the same UI thread → **deadlock**, app freezes |
 | 2026-11-15 | 05 | Closures in a `for` loop | Predicted 0,1,2 | Lambdas capture the **variable**, not the value; one shared `i` → 3,3,3. Fix: local copy; `foreach` is safe |
+| 2026-11-20 | 07 | Scoped lifetime | Mixed it up: said different within a request, same across requests | **Scoped = one per request**: same inside a request, different for each request |
+| 2026-11-20 | 07 | Local secrets | Said `.env` (Laravel habit) | .NET uses **user secrets** (`dotnet user-secrets`) locally; env vars / vault in production |
