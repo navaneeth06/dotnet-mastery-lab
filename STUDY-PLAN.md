@@ -21,9 +21,16 @@ in `INTERVIEW-ANSWERS.md`. Tests only for tricky topics.
 | 11 | Nov 24 | 🔥 EF Core part 2: N+1, `Include`, transactions, concurrency, raw SQL | [x] |
 | 12 | Nov 25 | Security: authentication vs authorization, JWT, policies, CORS | [x] |
 | 13 | Nov 26 | Testing (xUnit, mocking, `WebApplicationFactory`) + logging, caching | [x] |
-| 14 | Nov 27 | Architecture: Clean Architecture, CQRS, messaging, resilience (Polly) | [ ] |
-| 15 | Nov 28 | Full mock interview #1 (mixed topics) + fix weak areas | [ ] |
-| 16 | Nov 29 | Full mock interview #2 + revise all `INTERVIEW-ANSWERS.md` | [ ] |
-| 17 | Nov 30 | Light revision of weak areas only. Rest. | [ ] |
+| 14 | Nov 27 | Architecture: Clean Architecture, CQRS, messaging, resilience (Polly) | [x] |
+| 15 | Nov 22 | Weak-areas review #1: modules 01–05 (`interview/weak-areas.md`) | [ ] |
+| 16 | Nov 23 | Weak-areas review #2: modules 06–12 | [ ] |
+| 17 | Nov 24 | Full mock interview #1 (mixed topics) | [ ] |
+| 18 | Nov 25 | Gap topics: `Span<T>`, Dictionary internals, generic variance, `BackgroundService`, health checks, rate limiting, API versioning | [ ] |
+| 19 | Nov 26 | System design practice: design an order/checkout API end-to-end | [ ] |
+| 20 | Nov 27 | Full mock interview #2 | [ ] |
+| 21 | Nov 28 | Live-coding practice: build a small minimal API + EF Core + test, explaining as you go | [ ] |
+| 22 | Nov 29 | Final mock interview #3 + revise all `INTERVIEW-ANSWERS.md` | [ ] |
+| 23 | Nov 30 | Light revision of remaining weak areas only. Rest. | [ ] |
 
 Already done: value vs reference types, boxing/unboxing (Nov 11–14).
+All 14 learning days finished on Nov 21 (6 days early); days 15–23 re-planned to use the extra time.

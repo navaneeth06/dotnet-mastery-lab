@@ -60,3 +60,34 @@ await cache.GetOrCreateAsync($"product:{id}", async e =>
 - Don't cache per-user sensitive data under shared keys.
 
 Comparison: Laravel `Cache::remember('key', 300, fn () => ...)`.
+
+---
+
+## Resilience with Polly 🔥
+
+**Question:** "How do you make calls to external services resilient?"
+
+### Short answer
+
+> "With resilience strategies, using Polly, which in .NET 8+ is built into
+> `Microsoft.Extensions.Http.Resilience`. `AddStandardResilienceHandler()` on an
+> `HttpClient` adds sensible defaults:
+> - **Retry** with exponential backoff and jitter, for **transient** failures (503, timeouts, network blips).
+> - **Timeout**, so a slow dependency doesn't hold my threads.
+> - **Circuit breaker**: after repeated failures, stop calling for a while and fail fast.
+>   That protects my API and gives the failing service time to recover.
+> - Optionally a **fallback** (cached or default value).
+> Retries are only safe for **idempotent** operations. For something like a payment
+> POST, I'd only retry if the provider supports an **idempotency key**."
+
+| Situation | Strategy |
+|---|---|
+| Brief 503, then OK | Retry (backoff) |
+| Service down for minutes | Circuit breaker (+ timeout, fallback) |
+| Calls hang for 30 s | Timeout |
+
+### Extra points
+
+- Retries without a circuit breaker can turn a small outage into a **retry storm**.
+- Use `IHttpClientFactory` / typed clients to avoid socket exhaustion and to attach the handlers.
+- Comparison: Spring Resilience4j (`@Retry`, `@CircuitBreaker`); Laravel `Http::retry(3, 100)`.

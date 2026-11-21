@@ -21,3 +21,6 @@ Topics to revisit. Remove a row once I can answer it confidently without hints.
 | 2026-11-20 | 07 | Scoped lifetime | Mixed it up: said different within a request, same across requests | **Scoped = one per request**: same inside a request, different for each request |
 | 2026-11-20 | 07 | Local secrets | Said `.env` (Laravel habit) | .NET uses **user secrets** (`dotnet user-secrets`) locally; env vars / vault in production |
 | 2026-11-21 | 08 | Missing `Include` in EF Core | Thought it was a memory issue | Lazy loading is **off** by default → `order.Customer` is **null** → `NullReferenceException`. Use `Include` or `Select` |
+| 2026-11-21 | 12 | Command vs query | Swapped them (Update... = query, Get... = command) | **Command = changes data** (Update, Place, Cancel). **Query = reads** (Get, List). |
+| 2026-11-21 | 12 | Idempotent consumers | Said idempotency "prevents delivering the message more than once" | Duplicates **will** happen (at-least-once). Idempotency makes processing a duplicate **harmless** (same result as once) |
+| 2026-11-21 | 11 | Circuit breaker | Picked timeout for "service down for 10 minutes" | Long outage → **circuit breaker** (fail fast, stop hammering); timeout only limits each call |
