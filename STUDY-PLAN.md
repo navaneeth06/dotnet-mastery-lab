@@ -17,7 +17,7 @@ in `INTERVIEW-ANSWERS.md`. Tests only for tricky topics.
 | 7 | Nov 20 | OOP in C#: interfaces vs abstract classes, delegates, events, lambdas, SOLID | [x] |
 | 8 | Nov 21 | 🔥 ASP.NET Core: request pipeline, middleware, routing, filters, minimal APIs vs controllers | [x] |
 | 9 | Nov 22 | 🔥 Dependency injection: lifetimes, captive dependencies, options pattern, configuration | [x] |
-| 10 | Nov 23 | 🔥 EF Core part 1: `DbContext`, change tracking, tracking vs no-tracking, migrations | [ ] |
+| 10 | Nov 23 | 🔥 EF Core part 1: `DbContext`, change tracking, tracking vs no-tracking, migrations | [x] |
 | 11 | Nov 24 | 🔥 EF Core part 2: N+1, `Include`, transactions, concurrency, raw SQL | [ ] |
 | 12 | Nov 25 | Security: authentication vs authorization, JWT, policies, CORS | [ ] |
 | 13 | Nov 26 | Testing (xUnit, mocking, `WebApplicationFactory`) + logging, caching | [ ] |
