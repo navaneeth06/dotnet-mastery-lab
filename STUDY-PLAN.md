@@ -20,7 +20,7 @@ in `INTERVIEW-ANSWERS.md`. Tests only for tricky topics.
 | 10 | Nov 23 | 🔥 EF Core part 1: `DbContext`, change tracking, tracking vs no-tracking, migrations | [x] |
 | 11 | Nov 24 | 🔥 EF Core part 2: N+1, `Include`, transactions, concurrency, raw SQL | [x] |
 | 12 | Nov 25 | Security: authentication vs authorization, JWT, policies, CORS | [x] |
-| 13 | Nov 26 | Testing (xUnit, mocking, `WebApplicationFactory`) + logging, caching | [ ] |
+| 13 | Nov 26 | Testing (xUnit, mocking, `WebApplicationFactory`) + logging, caching | [x] |
 | 14 | Nov 27 | Architecture: Clean Architecture, CQRS, messaging, resilience (Polly) | [ ] |
 | 15 | Nov 28 | Full mock interview #1 (mixed topics) + fix weak areas | [ ] |
 | 16 | Nov 29 | Full mock interview #2 + revise all `INTERVIEW-ANSWERS.md` | [ ] |
