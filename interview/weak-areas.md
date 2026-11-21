@@ -20,3 +20,4 @@ Topics to revisit. Remove a row once I can answer it confidently without hints.
 | 2026-11-15 | 05 | Closures in a `for` loop | Predicted 0,1,2 | Lambdas capture the **variable**, not the value; one shared `i` → 3,3,3. Fix: local copy; `foreach` is safe |
 | 2026-11-20 | 07 | Scoped lifetime | Mixed it up: said different within a request, same across requests | **Scoped = one per request**: same inside a request, different for each request |
 | 2026-11-20 | 07 | Local secrets | Said `.env` (Laravel habit) | .NET uses **user secrets** (`dotnet user-secrets`) locally; env vars / vault in production |
+| 2026-11-21 | 08 | Missing `Include` in EF Core | Thought it was a memory issue | Lazy loading is **off** by default → `order.Customer` is **null** → `NullReferenceException`. Use `Include` or `Select` |

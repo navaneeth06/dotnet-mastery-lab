@@ -100,3 +100,113 @@ dotnet ef migrations bundle                     # self-contained executable
 ### Comparisons
 
 Laravel: `make:migration` (hand-written) + `migrate`. Spring: Flyway / Liquibase.
+
+---
+
+## The N+1 problem 🔥🔥
+
+**Question:** "What is the N+1 problem and how do you avoid it in EF Core?"
+
+### Short answer
+
+> "N+1 is when you run 1 query to load a list, then 1 more query per item to load
+> related data: 100 orders means 101 database round-trips. In EF Core it happens
+> when you query inside a loop, or when lazy loading is enabled.
+> Fixes:
+> 1. **Eager loading** with `Include` / `ThenInclude`, which loads related data in the same query (a JOIN).
+> 2. **Projection** with `Select` into a DTO, which fetches only the needed columns in one query.
+>    Usually the best choice for read endpoints.
+> I also keep lazy loading **off** (the EF Core default) and check the generated
+> SQL in the logs."
+
+```csharp
+db.Orders.Include(o => o.Customer).ToListAsync();                          // 1 query, JOIN
+db.Orders.Select(o => new { o.Id, CustomerName = o.Customer.Name }).ToListAsync();  // 1 query, few columns
+```
+
+### EF Core vs Laravel / Hibernate
+
+Lazy loading is **off by default** in EF Core. Without `Include`, a navigation
+property is just **`null`** (or an empty collection), so you get a
+`NullReferenceException`, not a hidden query. Laravel and Hibernate lazy-load by
+default, which is where hidden N+1 queries come from.
+
+### Extra points
+
+- `Include` of several collections can create a huge JOIN ("cartesian explosion").
+  Use `.AsSplitQuery()` to load them in separate queries.
+- Watch for N+1 in loops calling a repository method per item; batch with
+  `Where(x => ids.Contains(x.Id))`.
+- See the SQL with `optionsBuilder.LogTo(Console.WriteLine)` or the logs at `Information` level.
+
+---
+
+## Transactions
+
+**Question:** "How do transactions work in EF Core?"
+
+### Short answer
+
+> "Each `SaveChangesAsync()` call runs in its own transaction automatically: all
+> changes succeed or none do. Often one `SaveChanges` is enough, because EF handles
+> generated keys and related entities in the right order. When several
+> `SaveChanges` calls (or raw SQL) must be atomic, I use
+> `await using var tx = await db.Database.BeginTransactionAsync();` and
+> `await tx.CommitAsync()`. If it isn't committed, disposing rolls it back."
+
+Comparisons: Laravel `DB::transaction(fn ...)`; Spring `@Transactional`. .NET has no
+built-in `@Transactional` attribute. Some teams use a unit-of-work behaviour or filter for it.
+
+With retries enabled (`EnableRetryOnFailure`), wrap manual transactions in
+`db.Database.CreateExecutionStrategy().ExecuteAsync(...)`.
+
+---
+
+## Optimistic concurrency 🔥
+
+**Question:** "Two users edit the same record at the same time. How do you prevent lost updates?"
+
+### Short answer
+
+> "With **optimistic concurrency**: add a concurrency token, like a SQL Server
+> `rowversion` with `[Timestamp]`, or `IsConcurrencyToken()` on a column. EF adds
+> it to the `WHERE` clause of the UPDATE. If another user changed the row first,
+> the version doesn't match, 0 rows are affected, and EF throws
+> `DbUpdateConcurrencyException`. I catch it and either reload and retry, merge,
+> or return **409 Conflict** so the user can refresh.
+> It's optimistic because nothing is locked. It suits web apps where conflicts are
+> rare. Pessimistic locking (`SELECT ... FOR UPDATE` / `UPDLOCK`) needs raw SQL in EF Core."
+
+```csharp
+[Timestamp] public byte[] RowVersion { get; set; } = null!;
+// UPDATE Products SET Stock = @p0 WHERE Id = @id AND RowVersion = @originalVersion
+```
+
+Comparisons: Hibernate/JPA `@Version`. Laravel has nothing built in.
+
+For simple counters, an atomic update avoids the conflict entirely:
+`db.Products.Where(p => p.Id == id).ExecuteUpdateAsync(s => s.SetProperty(p => p.Stock, p => p.Stock - 3))`.
+
+---
+
+## Raw SQL and SQL injection
+
+**Question:** "How do you run raw SQL in EF Core safely?"
+
+### Short answer
+
+> "`FromSql($"...{value}")` for queries returning entities, and
+> `ExecuteSqlAsync($"...")` for commands. With an interpolated string, EF turns each
+> `{value}` into a **DbParameter**, so it's safe from SQL injection. The `...Raw`
+> versions take a plain string: if you build it with concatenation, or with `$"..."`
+> passed to `FromSqlRaw`, the values are pasted into the SQL, which is **SQL injection**.
+> Use `...Raw` only with `{0}` placeholders plus parameters, e.g. for dynamic table names.
+> `FromSql` returns an `IQueryable`, so I can compose LINQ on top (`Where`,
+> `AsNoTracking`). `SqlQuery<T>` maps to non-entity types (EF Core 8+)."
+
+```csharp
+db.Users.FromSql($"SELECT * FROM Users WHERE Email = {email}")       // ✅ parameterised
+db.Users.FromSqlRaw($"SELECT * FROM Users WHERE Email = '{email}'")  // ❌ injection
+```
+
+Comparison: Laravel `DB::select('... where email = ?', [$email])` vs string interpolation.
